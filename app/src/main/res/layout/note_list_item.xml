@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="4dp">
+
+    <ImageView
+        android:id="@+id/imageDocumentIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/note"
+        android:src="@drawable/file_document_box" />
+
+    <TextView
+        android:id="@+id/textViewNote"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/imageDocumentIcon"
+        android:layout_toRightOf="@+id/imageDocumentIcon"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/colorListItemPrimaryText"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textViewTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewNote"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_toEndOf="@+id/imageDocumentIcon"
+        android:layout_toRightOf="@+id/imageDocumentIcon"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="@color/colorListItemSecondaryText"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textViewDateTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTags"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_toEndOf="@+id/imageDocumentIcon"
+        android:layout_toRightOf="@+id/imageDocumentIcon"
+        android:singleLine="true"
+        android:gravity="center|start"
+        android:text=""
+        android:textColor="@color/colorListItemSecondaryText"
+        android:textSize="12sp" />
+
+
+</RelativeLayout>
