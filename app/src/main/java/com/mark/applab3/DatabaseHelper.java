@@ -15,7 +15,7 @@ import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "notes.db"; // название бд
-    private static final int SCHEMA = 3; // версия базы данных
+    private static final int SCHEMA = 5; // версия базы данных
     static final String TABLE = "users"; // название таблицы в бд
     // названия столбцов
     public static final String COLUMN_ID = "_id";
@@ -33,8 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + TABLE + " (" + COLUMN_ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_TITLE + " TEXT, "
-                + COLUMN_TAGS + " TEXT, " + COLUMN_TEXT + " TEXT, " + COLUMN_DATE + " TEXT);");
-        String curentDate = Note.formatter.format(new Date());
+                + COLUMN_TAGS + " TEXT, " + COLUMN_TEXT + " TEXT, " + COLUMN_DATE + " LONG);");
+        long curentDate = new Date().getTime();
         // добавление начальных данных
         db.execSQL("INSERT INTO "+ TABLE +" (" + COLUMN_TITLE + ", " + COLUMN_TAGS + ", "
                 + COLUMN_TEXT  + ", " + COLUMN_DATE + ") VALUES ('TEST', 'tag1, tag2', 'Simple Text', '" +  curentDate + "');");

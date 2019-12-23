@@ -33,7 +33,8 @@ public class DatabaseAdapter {
 
     private Cursor getAllEntries(){
         String[] columns = new String[] {DatabaseHelper.COLUMN_ID, DatabaseHelper.COLUMN_TITLE, DatabaseHelper.COLUMN_TAGS, DatabaseHelper.COLUMN_TEXT, DatabaseHelper.COLUMN_DATE};
-        return  database.query(DatabaseHelper.TABLE, columns, DatabaseHelper.COLUMN_TAGS + " LIKE '%" + filterString + "%'", null, null, null, sortString);
+        String whereClause = "LOWER(" + DatabaseHelper.COLUMN_TAGS + ") LIKE '%" + filterString + "%'";
+        return  database.query(DatabaseHelper.TABLE, columns, whereClause, null, null, null, sortString);
     }
 
     public ArrayList<Note> getNotes(){
@@ -45,8 +46,8 @@ public class DatabaseAdapter {
                 String title = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TITLE));
                 String tags = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TAGS));
                 String text = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TEXT));
-                String datetime = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE));
-                notes.add(new Note(id, title, tags, text, datetime));
+                long datetime = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE));
+                notes.add(new Note(id, title, tags, text, new Date(datetime)));
             }
             while (cursor.moveToNext());
         }
@@ -60,9 +61,9 @@ public class DatabaseAdapter {
 
     public void setSort(int sort) {
         if(sort == 1)
-            this.sortString = DatabaseHelper.COLUMN_TITLE + " ASC";
+            this.sortString = DatabaseHelper.COLUMN_DATE + " DESC";
         else if (sort == 2) {
-            this.sortString = DatabaseHelper.COLUMN_DATE + " ASC";
+            this.sortString = "LOWER(" + DatabaseHelper.COLUMN_TITLE + ") ASC";
         }
 
     }
@@ -75,20 +76,21 @@ public class DatabaseAdapter {
             String title = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TITLE));
             String tags = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TAGS));
             String text = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_TEXT));
-            String datetime = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE));
-            note = new Note(id, title, tags, text, datetime);
+            long datetime = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_DATE));
+            java.sql.Date dt = new java.sql.Date(datetime);
+            note = new Note(id, title, tags, text, dt);
         }
         cursor.close();
         return  note;
     }
 
-    public long insert(Note user){
+    public long insert(Note note){
 
         ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_TITLE, user.getTitle());
-        cv.put(DatabaseHelper.COLUMN_TAGS, user.getTags());
-        cv.put(DatabaseHelper.COLUMN_TEXT, user.getText());
-        cv.put(DatabaseHelper.COLUMN_DATE, user.getDatetimeToString());
+        cv.put(DatabaseHelper.COLUMN_TITLE, note.getTitle());
+        cv.put(DatabaseHelper.COLUMN_TAGS, note.getTags());
+        cv.put(DatabaseHelper.COLUMN_TEXT, note.getText());
+        cv.put(DatabaseHelper.COLUMN_DATE, note.getDatetime().getTime());
 
         return  database.insert(DatabaseHelper.TABLE, null, cv);
     }
@@ -105,7 +107,7 @@ public class DatabaseAdapter {
         cv.put(DatabaseHelper.COLUMN_TITLE, note.getTitle());
         cv.put(DatabaseHelper.COLUMN_TAGS, note.getTags());
         cv.put(DatabaseHelper.COLUMN_TEXT, note.getText());
-        cv.put(DatabaseHelper.COLUMN_DATE, note.getDatetimeToString());
+        cv.put(DatabaseHelper.COLUMN_DATE, note.getDatetime().getTime());
         return database.update(DatabaseHelper.TABLE, cv, whereClause, null);
     }
 

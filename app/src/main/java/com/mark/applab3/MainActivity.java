@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
     };
 
     static {
-        notes = new ArrayList();
+        notes = new ArrayList<Note>();
         notes.add(new Note("Картофель", "кг.", "text1"));
         notes.add(new Note("Чай", "шт.", "text2"));
         notes.add(new Note("Яйца", "шт.", "text3"));
